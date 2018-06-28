@@ -4,11 +4,11 @@
 	//input_id 最终存放图片路径的 hidden input
 	//index 
 	//服务端接收文件地址
-	var _show_id = '';
-	var _input_id = '';
+	var _show_id = [];		//img 标签前缀
+	var _input_id = [];		//input 标签前缀
 	function _pt_init(show_id,input_id,server_upload_url,index){
-		_show_id = show_id;
-		_input_id = input_id;
+		_show_id.push(show_id);
+		_input_id.push(input_id);
 		var index = index ? index : '';
 		//动态添加iframe和表单
 		var iframe = document.getElementById("_pt_upload_iframe");
@@ -68,9 +68,10 @@
 	//reason 成功返回文件路径 失败返回失败原因
 	function _pt_callback(status,msg,reason,index){
 		//var index = index ? index : '';
-		var _show_id_ = (_show_id + index);
-		var _input_id_ = (_input_id + index);
-		//console.log(_input_id_);
+		var _show_id_ = (_show_id[index] + index);
+		var _input_id_ = (_input_id[index] + index);
+		console.log(_show_id);
+		console.log(_input_id);
 		if(status == 1){
 			alert(msg);								//todo 提示信息可以根据需要美化
 			var show_file = document.getElementById(_show_id_);
@@ -80,7 +81,9 @@
 				return false;
 			}
 			show_file.src = reason;
+			show_file.style.display='inline-block';
 			file_target.value = reason;
+			
 		} else {
 			alert(msg+','+'失败原因或代码:'+reason);	//todo 提示信息可以根据需要美化
 		}
